@@ -1,0 +1,52 @@
+Обработка запросов
+
+Файл urls.py в нашем проекте будет выглядеть так:
+# импортируем функцию для проверки запрошенных URL
+from django.urls import path  
+# импортируем все три файла с view-функциями из разных директорий
+from accounts import views as acc_views
+from articles import views as art_views 
+from . import views
+
+urlpatterns = [
+     # правила для сопоставления шаблонов URL и функций
+     path('', views.index),
+     path('articles/dashboard', art_views.dashboard),
+     path('accounts/sign-up', acc_views.sign_up),
+     path('accounts/sign-in', acc_views.sign_in),
+     path('accounts/my-account', acc_views.my_account)
+]
+
+Разберём, что написано в листинге:
+
+Инструкция from django.urls import path импортирует функцию path() из библиотеки django.urls. 
+Импортировать всю библиотеку необязательно, берите из неё лишь то, что вам нужно.
+Инструкция from accounts import views подключает к URL Mapping файл views.py из директории accounts. 
+Именно этот файл содержит view-функции, которые вызываются из правил обработки запросов.
+Далее в коде объявлена переменная urlpatterns. Она хранит список правил, сопоставляющих шаблоны и функции. 
+А содержимое этого списка вам знакомо с прошлого урока.
+
+Подготовка ответов
+
+Формированием ответов занимаются view-функции, которые в качестве аргумента принимают объект типа HttpRequest. 
+В Django это специальный тип данных для хранения информации из входящего HTTP-запроса.
+Напишем несколько view-функций, которые в ответ на запрос вернут несложный HTML-код.
+Напомним: HTML — это язык разметки веб-страниц, с ним вы уже встречались.
+Мы обрамили названия страниц в HTML-теги <h1> (тег заголовка первого уровня), и
+теперь текст на странице будет отображаться крупным шрифтом в полужирном начертании:
+
+# для url без аргументов (для главной страницы)
+def index(request): 
+    return HttpResponse('<h1>Главная страница проекта My Blog</h1>')
+
+# для url accounts/sign-up
+def sign_up(request): 
+    return HttpResponse('<h1>Страница регистрации</h1>')
+
+# для url accounts/sign-in
+def sign_in(request): 
+    return HttpResponse('<h1>Страница авторизации</h1>')
+
+# для url accounts/my-account
+def my_account(request): 
+    return HttpResponse('<h1>Данные вашего аккаунта</h1>')
